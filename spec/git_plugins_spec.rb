@@ -62,12 +62,12 @@ describe GitPlugins do
     end
 
     it "has status method that does a git status on all plugins" do
-      GitPlugins.instance.should_receive(:run_command).with("cd #{plugin_path} && git status")
+      GitPlugins.instance.should_receive(:run_command).with("cd #{plugin_path} && git --no-pager status")
       GitPlugins.status
     end
 
     it "has a pull method that does a git pull on all plugins" do
-      GitPlugins.instance.should_receive(:run_command).with("cd #{plugin_path} && git pull")
+      GitPlugins.instance.should_receive(:run_command).with("cd #{plugin_path} && git --no-pager pull")
       GitPlugins.pull
     end
     

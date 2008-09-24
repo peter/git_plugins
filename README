@@ -1,7 +1,7 @@
 GitPlugins
 ==========
 
-This is a simple plugin to keep track of Rails plugins that are kept in Git repositories.
+This is a simple plugin has a set of rake tasks to keep track of Rails plugins that are kept in Git repositories.
 The idea is to provide at least some of the functionality of svn externals.
 
 I keep my Rails application in Git and I develop open source Rails plugins that each live in their
@@ -28,7 +28,7 @@ http://effectif.com/2008/4/24/easy-git-svn-for-rails
 Example
 =======
 
-Add the file config/initializers/git_plugins.rb:
+Add the file config/git_plugins.rb:
 
 GitPlugins.configure do |g|
   g.plugin :name => "server_config", :url => "git://github.com/peter/server_config.git"

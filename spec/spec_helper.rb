@@ -8,3 +8,4 @@ end
 plugin_spec_dir = File.dirname(__FILE__)
 ActiveRecord::Base.logger = Logger.new(plugin_spec_dir + "/debug.log")
 
+require File.join(File.dirname(__FILE__), "..", "lib", "git_plugins")

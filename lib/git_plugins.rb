@@ -34,7 +34,7 @@ class GitPlugins
   end
 
   def checkout(plugin_name)
-    run_command("cd #{plugins_dir} && git clone #{url(plugin_name)} #{plugin_name}")
+    run_command("cd #{plugins_dir} && #{git_command} clone #{url(plugin_name)} #{plugin_name}")
   end
 
   def self.checkout_all
@@ -53,7 +53,7 @@ class GitPlugins
   end
 
   def status
-    run_each("git status")
+    run_each("#{git_command} status")
   end
 
   def self.pull
@@ -61,7 +61,7 @@ class GitPlugins
   end
 
   def pull
-    run_each("git pull")
+    run_each("#{git_command} pull")
   end
 
   def self.run_each(command)
@@ -88,7 +88,7 @@ class GitPlugins
   
   def plugin(options = {})
     require_options(options, :name, :url)
-    plugins[options[:name].to_sym] = options.except(:name)
+    plugins[options[:name].to_sym] = options.reject { |key, value| key == :name }
   end
   
   def url(plugin_name)
@@ -114,9 +114,16 @@ class GitPlugins
     end    
   end
 
+  def git_command
+    "git --no-pager"
+  end
+
   def run_command(command)
     puts command
     system command
     raise "command='#{command}' failed with return code '#{$?}'" if $? != 0
   end
 end
+
+config_file = File.join(File.dirname(__FILE__), "..", "..", "..", "..", "config", "git_plugins.rb")
+File.exists?(config_file) ? require(config_file) : raise("Missing Git plugins config file at #{config_file}")
