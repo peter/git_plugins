@@ -1,0 +1,46 @@
+GitPlugins
+==========
+
+This is a simple plugin to keep track of Rails plugins that are kept in Git repositories.
+The idea is to provide at least some of the functionality of svn externals.
+
+I keep my Rails application in Git and I develop open source Rails plugins that each live in their
+own repositories. This plugin provides a way to keep track of those plugins and:
+
+1) Bootstrap your Rails app by cloning all the Git plugins needed under vendor/plugins.
+2) Add all git plugins to .gitignore.
+3) Be able a git status or git pull on all Git plugins.
+
+As an alternative to using this plugin or some other approach to nested Git repositories you
+might want to check out Git submodules and the git-rake rake tasks for managing them:
+
+http://github.com/mdalessio/git-rake/tree/master
+
+Please note that Git submodules don't work like svn externals though and as it says in the git-rake README:
+
+"git submodules are inherently not well-suited for frequently updated projects"
+
+For more discussion and alternatives, check out these links:
+
+http://panthersoftware.com/articles/view/3/svn-s-svn-externals-to-git-s-submodule-for-rails-plugins
+http://effectif.com/2008/4/24/easy-git-svn-for-rails
+
+Example
+=======
+
+Add the file config/initializers/git_plugins.rb:
+
+GitPlugins.configure do |g|
+  g.plugin :name => "server_config", :url => "git://github.com/peter/server_config.git"
+end
+
+Checkout the plugin and add it to .gitignore:
+
+rake git:plugins:checkout
+
+Check status and update your plugins:
+
+rake git:plugins:status
+rake git:plugins:pull
+
+Copyright (c) 2008 Peter Marklund, released under the MIT license
