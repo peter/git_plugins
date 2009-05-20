@@ -34,9 +34,15 @@ class GitPlugins
   end
 
   def checkout(plugin_name)
-    run_command("cd #{plugins_dir} && #{git_command} clone #{url(plugin_name)} #{plugin_name}")
+    unless already_checked_out?(plugin_name)
+      run_command("cd #{plugins_dir} && #{git_command} clone #{url(plugin_name)} #{plugin_name}") 
+    end
   end
 
+  def already_checked_out?(plugin_name)
+    File.exists?(plugin_path(plugin_name))
+  end
+  
   def self.checkout_all
     instance.checkout_all
   end

@@ -55,6 +55,13 @@ describe GitPlugins do
       File.exists?(File.join(plugin_path, "lib", "server_config.rb")).should be_true
     end
 
+    it "does not attempt a checkout if there is already a file/directory with the same name" do
+      system("touch #{plugin_path}")
+      File.directory?(plugin_path).should be_false
+      GitPlugins.checkout(:git_plugin_test)
+      File.directory?(plugin_path).should be_false      
+    end
+
     it "has a checkout_all method that clones out all plugins under vendor/plugins and adds them to .gitignore" do
       GitPlugins.instance.should_receive(:checkout).with(:git_plugin_test)
       GitPlugins.checkout_all
