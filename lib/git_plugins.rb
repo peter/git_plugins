@@ -34,7 +34,9 @@ class GitPlugins
   end
 
   def checkout(plugin_name)
-    unless already_checked_out?(plugin_name)
+    if already_checked_out?(plugin_name)
+      log "Skipping checkout of plugin #{plugin_name} - already checked out?"
+    else
       run_command("cd #{plugins_dir} && #{git_command} clone #{url(plugin_name)} #{plugin_name}") 
     end
   end
@@ -128,6 +130,10 @@ class GitPlugins
     puts command
     system command
     raise "command='#{command}' failed with return code '#{$?}'" if $? != 0
+  end
+  
+  def log(message)
+    puts "#{self.class}: #{message}"
   end
 end
 
